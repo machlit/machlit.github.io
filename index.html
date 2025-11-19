@@ -1146,6 +1146,9 @@ drs delete -g AppleInterfaceStyle
                         </div>
                     </div>
                 </section>
+
+                <!-- Spacer for bottom section visibility -->
+                <div style="height: 100vh"></div>
             </main>
         </div>
 
@@ -1201,10 +1204,9 @@ drs delete -g AppleInterfaceStyle
             const spacer = document.getElementById("spacer");
 
             function updateSpacer() {
-                // total height equals number of hero sections * viewport height
-                const sections = document.querySelectorAll("section.hero");
-                const total = sections.length * window.innerHeight;
-                spacer.style.height = total + "px";
+                // total height equals content height from smooth-content
+                const contentHeight = content.offsetHeight;
+                spacer.style.height = contentHeight + "px";
             }
             window.addEventListener("resize", updateSpacer);
             updateSpacer();
