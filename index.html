@@ -1229,18 +1229,6 @@ drs delete -g AppleInterfaceStyle
             window.addEventListener("resize", updateSpacer);
             updateSpacer();
 
-            // Get all hero sections for snap-to-section functionality
-            const heroSections = document.querySelectorAll("section.hero");
-            const sectionSnapPoints = Array.from(heroSections).map(
-                (section) => {
-                    return {
-                        section: section,
-                        top: section.offsetTop,
-                        height: section.offsetHeight,
-                    };
-                },
-            );
-
             // Smooth/slow scroll: interpolate transform towards window.scrollY
             const smoothEl = document.querySelector(".smooth-content");
             let current = 0;
@@ -1251,15 +1239,8 @@ drs delete -g AppleInterfaceStyle
             let parallaxCurrent = 0;
             const parallaxEase = 0.08; // slightly higher ease = faster movement
 
-            // Snap to section state
-            let isSnapping = false;
-            let snapTarget = 0;
-            const snapSpeed = 0.15;
-
             function raf() {
-                if (!isSnapping) {
-                    target = window.scrollY || window.pageYOffset;
-                }
+                target = window.scrollY || window.pageYOffset;
 
                 current += (target - current) * ease;
                 parallaxCurrent += (target - parallaxCurrent) * parallaxEase;
@@ -1278,54 +1259,6 @@ drs delete -g AppleInterfaceStyle
                 requestAnimationFrame(raf);
             }
             requestAnimationFrame(raf);
-
-            // Handle scroll snapping to sections
-            function snapToSection() {
-                const scrollY = window.scrollY || window.pageYOffset;
-                const viewportHeight = window.innerHeight;
-                const viewportCenter = scrollY + viewportHeight / 2;
-
-                // Find closest section
-                let closestSection = null;
-                let closestDistance = Infinity;
-
-                sectionSnapPoints.forEach((snap) => {
-                    const sectionCenter = snap.top + snap.height / 2;
-                    const distance = Math.abs(sectionCenter - viewportCenter);
-
-                    if (distance < closestDistance) {
-                        closestDistance = distance;
-                        closestSection = snap;
-                    }
-                });
-
-                // Trigger snap if user has scrolled more than 50px from any section
-                if (closestSection) {
-                    const sectionCenter =
-                        closestSection.top + closestSection.height / 2;
-                    const distanceFromCenter = Math.abs(
-                        sectionCenter - viewportCenter,
-                    );
-
-                    if (distanceFromCenter > 60 && !isSnapping) {
-                        // User has scrolled away from center, allow snapping
-                        isSnapping = false;
-                    }
-
-                    // If close to a section and moving slowly, snap to it
-                    if (
-                        distanceFromCenter < 60 &&
-                        Math.abs(target - current) < 5
-                    ) {
-                        isSnapping = true;
-                        snapTarget = sectionCenter - viewportHeight / 2;
-                        target = snapTarget;
-                    }
-                }
-            }
-
-            // Check for snap on scroll
-            window.addEventListener("scroll", snapToSection, { passive: true });
 
             // Reveal elements when near viewport (works with transformed container)
             const revealEls = document.querySelectorAll(".reveal");
