@@ -1,0 +1,1384 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Machlit — Developer Tools</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <style>
+            :root {
+                color-scheme: light dark;
+            }
+
+            /* Dark theme */
+            html.dark {
+                --bg-1: #0a0a0a;
+                --bg-2: #1c1c1c;
+                --accent: #ffffff;
+                --glow: rgba(255, 255, 255, 0.12);
+                --text-primary: #e6eef0;
+                --text-secondary: rgba(230, 238, 240, 0.78);
+                --text-tertiary: rgba(230, 238, 240, 0.65);
+                --border-color: rgba(255, 255, 255, 0.04);
+                --content-bg: rgba(255, 255, 255, 0.02);
+                --mock-bg: rgba(30, 30, 30, 0.8);
+                --code-bg: #000000;
+                --code-text: #d0d0d0;
+                --pulse-color: rgba(255, 255, 255, 0.5);
+                --dot-bg: linear-gradient(180deg, #ffffff, #b0b0b0);
+                --cta-primary-bg: linear-gradient(90deg, #ffffff, #d0d0d0);
+                --cta-primary-color: #000000;
+                --cta-ghost-border: rgba(255, 255, 255, 0.06);
+                --cta-ghost-border-hover: rgba(255, 255, 255, 0.12);
+                --cta-ghost-bg-hover: rgba(255, 255, 255, 0.02);
+                --timeline-dot: rgba(255, 255, 255, 0.3);
+                --timeline-dot-border: rgba(255, 255, 255, 0.6);
+            }
+
+            /* Light theme */
+            html:not(.dark) {
+                --bg-1: #ffffff;
+                --bg-2: #f5f5f7;
+                --accent: #000000;
+                --glow: rgba(0, 0, 0, 0.08);
+                --text-primary: #1d1d1f;
+                --text-secondary: rgba(29, 29, 31, 0.78);
+                --text-tertiary: rgba(29, 29, 31, 0.65);
+                --border-color: rgba(0, 0, 0, 0.08);
+                --content-bg: rgba(0, 0, 0, 0.02);
+                --mock-bg: rgba(245, 245, 247, 0.8);
+                --code-bg: #f5f5f7;
+                --code-text: #3d3d3d;
+                --pulse-color: rgba(0, 0, 0, 0.3);
+                --dot-bg: linear-gradient(180deg, #000000, #505050);
+                --cta-primary-bg: linear-gradient(90deg, #000000, #303030);
+                --cta-primary-color: #ffffff;
+                --cta-ghost-border: rgba(0, 0, 0, 0.12);
+                --cta-ghost-border-hover: rgba(0, 0, 0, 0.2);
+                --cta-ghost-bg-hover: rgba(0, 0, 0, 0.04);
+                --timeline-dot: rgba(0, 0, 0, 0.3);
+                --timeline-dot-border: rgba(0, 0, 0, 0.6);
+            }
+
+            html,
+            body {
+                height: 100%;
+            }
+            body {
+                margin: 0;
+                background: linear-gradient(
+                    180deg,
+                    var(--bg-2) 0%,
+                    var(--bg-1) 100%
+                );
+                background-attachment: fixed;
+                color: var(--text-primary);
+                font-family:
+                    Inter,
+                    ui-sans-serif,
+                    system-ui,
+                    -apple-system,
+                    "Segoe UI",
+                    Roboto,
+                    "Helvetica Neue",
+                    Arial;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                overflow-x: hidden; /* prevent horizontal scroll */
+                will-change: background;
+                transition:
+                    background 300ms ease-in-out,
+                    color 300ms ease-in-out;
+            }
+
+            /* grain overlay */
+            body::before {
+                content: "";
+                pointer-events: none;
+                position: fixed;
+                inset: 0;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.03"/></svg>');
+                mix-blend-mode: overlay;
+                z-index: 100;
+                will-change: contents;
+            }
+
+            header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 60;
+                padding: 18px 40px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                will-change: transform;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+            header .brand {
+                display: flex;
+                gap: 12px;
+                align-items: center;
+            }
+            header .logo {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+            header .logo .logo-image {
+                width: 60px;
+                height: 60px;
+                opacity: 0;
+                transition: opacity 300ms ease-in-out;
+                will-change: opacity;
+            }
+            header .logo .logo-image.visible {
+                opacity: 1;
+            }
+            header a {
+                color: var(--text-primary);
+                opacity: 0.8;
+                text-decoration: none;
+                transition: opacity 300ms ease-in-out;
+            }
+
+            /* fixed content wrapper for smooth transform */
+            .smooth-wrap {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                z-index: 10;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+            .smooth-content {
+                position: relative;
+                width: 100%;
+                will-change: transform;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+
+            /* spacer to enable native scrollbar */
+            #spacer {
+                width: 1px;
+                opacity: 0;
+                contain: layout style paint;
+            }
+
+            /* scroll indicator */
+            .scroll-indicator {
+                position: fixed;
+                bottom: 40px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 50;
+                text-align: center;
+                color: var(--text-primary);
+                opacity: 0.7;
+                font-size: 14px;
+                font-weight: 500;
+                pointer-events: none;
+                will-change: opacity;
+                transition:
+                    opacity 300ms ease-in-out,
+                    color 300ms ease-in-out;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+            .scroll-indicator.hidden {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            /* full-screen section */
+            section.hero {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 6rem 5vw;
+                box-sizing: border-box;
+                contain: layout style paint;
+            }
+
+            .panel {
+                width: 100%;
+                max-width: 1200px;
+                display: flex;
+                gap: 48px;
+                align-items: center;
+                justify-content: space-between;
+                will-change: transform;
+            }
+
+            .content {
+                flex: 1 1 50%;
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                background: linear-gradient(
+                    180deg,
+                    rgba(255, 255, 255, 0.02),
+                    rgba(255, 255, 255, 0.01)
+                );
+                border-radius: 16px;
+                padding: 48px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+                border: 1px solid var(--border-color);
+                transform: translateZ(0);
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+                contain: content;
+                transition:
+                    background 300ms ease-in-out,
+                    border-color 300ms ease-in-out,
+                    box-shadow 300ms ease-in-out;
+            }
+
+            html:not(.dark) .content {
+                background: linear-gradient(
+                    180deg,
+                    rgba(0, 0, 0, 0.02),
+                    rgba(0, 0, 0, 0.01)
+                );
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            }
+
+            .content .demo-image {
+                width: 100%;
+                max-width: 200px;
+                height: 200px;
+                border-radius: 10px;
+                margin-bottom: 16px;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+
+            .visual {
+                flex: 1 1 45%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 320px;
+                flex-direction: column;
+                transform: translateZ(0);
+                will-change: transform;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+
+            .visual .mock {
+                width: 100%;
+                height: auto;
+                max-width: 560px;
+                border-radius: 14px;
+                padding: 24px;
+                background: linear-gradient(
+                    180deg,
+                    rgba(30, 30, 30, 0.8),
+                    rgba(20, 20, 20, 0.8)
+                );
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+                border: 1px solid rgba(255, 255, 255, 0.035);
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+                transition:
+                    background 300ms ease-in-out,
+                    border-color 300ms ease-in-out,
+                    box-shadow 300ms ease-in-out;
+            }
+
+            html:not(.dark) .visual .mock {
+                background: linear-gradient(
+                    180deg,
+                    rgba(200, 200, 200, 0.8),
+                    rgba(180, 180, 180, 0.8)
+                );
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+                border: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            /* alternate layout */
+            .hero.even .panel {
+                flex-direction: row-reverse;
+            }
+
+            h1.site {
+                font-size: 22px;
+                font-weight: 700;
+            }
+            .kicker {
+                display: inline-block;
+                padding: 6px 12px;
+                background: linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.08),
+                    rgba(255, 255, 255, 0.04)
+                );
+                border-radius: 999px;
+                color: var(--accent);
+                font-weight: 600;
+                margin-bottom: 18px;
+                font-family:
+                    ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono",
+                    monospace;
+                transition:
+                    background 300ms ease-in-out,
+                    color 300ms ease-in-out;
+            }
+
+            html:not(.dark) .kicker {
+                background: linear-gradient(
+                    90deg,
+                    rgba(0, 0, 0, 0.08),
+                    rgba(0, 0, 0, 0.04)
+                );
+            }
+
+            h2.title {
+                font-size: 48px;
+                line-height: 1.02;
+                margin: 0 0 16px;
+                text-rendering: optimizeLegibility;
+                transition: color 300ms ease-in-out;
+            }
+            p.lead {
+                color: var(--text-secondary);
+                font-size: 18px;
+                margin: 0 0 24px;
+                transition: color 300ms ease-in-out;
+            }
+
+            .cta {
+                display: inline-flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px 20px;
+                border-radius: 12px;
+                font-weight: 600;
+                text-decoration: none;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+            .cta.primary {
+                background: var(--cta-primary-bg);
+                box-shadow: 0 8px 30px rgba(255, 255, 255, 0.12);
+                color: var(--cta-primary-color);
+                transition:
+                    transform 150ms cubic-bezier(0.2, 0.9, 0.2, 1),
+                    box-shadow 150ms ease-in-out,
+                    background 300ms ease-in-out,
+                    color 300ms ease-in-out;
+            }
+
+            html:not(.dark) .cta.primary {
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            }
+
+            .cta.primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 40px rgba(255, 255, 255, 0.16);
+            }
+
+            html:not(.dark) .cta.primary:hover {
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            }
+
+            .cta.primary:active {
+                transform: translateY(0);
+            }
+            .cta.ghost {
+                border: 1px solid var(--cta-ghost-border);
+                background: transparent;
+                color: inherit;
+                transition:
+                    border-color 150ms ease-in-out,
+                    background-color 150ms ease-in-out;
+            }
+            .cta.ghost:hover {
+                border-color: var(--cta-ghost-border-hover);
+                background: var(--cta-ghost-bg-hover);
+            }
+
+            /* small decorative accent */
+            .accent-dot {
+                width: 14px;
+                height: 14px;
+                border-radius: 999px;
+                background: var(--dot-bg);
+                box-shadow: 0 6px 22px var(--glow);
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+                transition:
+                    background 300ms ease-in-out,
+                    box-shadow 300ms ease-in-out;
+            }
+
+            /* reveal */
+            .reveal {
+                opacity: 0;
+                transform: translateY(24px) scale(0.995);
+                transition:
+                    transform 900ms cubic-bezier(0.2, 0.9, 0.2, 1),
+                    opacity 900ms cubic-bezier(0.2, 0.9, 0.2, 1);
+                will-change: transform, opacity;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+            .reveal.in-view {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+            /* code mock */
+            .code-snippet {
+                font-family:
+                    ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono",
+                    monospace;
+                background: var(--code-bg);
+                padding: 18px;
+                border-radius: 10px;
+                color: var(--code-text);
+                border: 1px solid transparent;
+                background-image:
+                    linear-gradient(var(--code-bg), var(--code-bg)),
+                    linear-gradient(
+                        135deg,
+                        rgba(255, 255, 255, 0.2),
+                        transparent
+                    );
+                background-origin: border-box;
+                background-clip: padding-box, border-box;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+                min-height: 1em;
+                contain: content;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+                overflow-x: auto;
+                word-wrap: break-word;
+                white-space: pre-wrap;
+                transition:
+                    background 300ms ease-in-out,
+                    color 300ms ease-in-out,
+                    box-shadow 300ms ease-in-out;
+            }
+
+            html:not(.dark) .code-snippet {
+                background-image:
+                    linear-gradient(var(--code-bg), var(--code-bg)),
+                    linear-gradient(135deg, rgba(0, 0, 0, 0.1), transparent);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            }
+
+            /* pulsating center line */
+            .pulse-line {
+                position: fixed;
+                left: 50%;
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                background: linear-gradient(
+                    180deg,
+                    transparent 0%,
+                    var(--pulse-color) 50%,
+                    transparent 100%
+                );
+                transform: translateX(-50%);
+                z-index: 5;
+                animation: pulse 4s ease-in-out infinite;
+                pointer-events: none;
+                will-change: opacity;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+                transition: background 300ms ease-in-out;
+            }
+
+            @keyframes pulse {
+                0% {
+                    opacity: 0.3;
+                }
+                50% {
+                    opacity: 0.7;
+                }
+                100% {
+                    opacity: 0.3;
+                }
+            }
+
+            /* hero first section layout */
+            section.hero#top {
+                position: relative;
+            }
+
+            section.hero#top .panel {
+                position: relative;
+                z-index: 1;
+                justify-content: center;
+                max-width: 760px;
+                flex-direction: column;
+            }
+
+            section.hero#top .content {
+                text-align: center;
+                max-width: 100%;
+                flex: 1 1 100%;
+            }
+
+            section.hero#top .visual {
+                display: flex;
+                order: -1;
+            }
+
+            section.hero#top .visual .demo-image {
+                max-width: 130px;
+                height: 130px;
+                margin-bottom: 0;
+                background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+                border-radius: 1rem;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                transition:
+                    background 300ms ease-in-out,
+                    border-color 300ms ease-in-out;
+            }
+
+            section.hero#top .visual .mock {
+                display: none;
+            }
+
+            /* Timeline styles for how it works section */
+            .timeline-container {
+                display: flex;
+                flex-direction: column;
+                gap: 32px;
+                position: relative;
+                padding-left: 40px;
+                contain: content;
+            }
+
+            .timeline-item {
+                position: relative;
+                padding-left: 24px;
+                will-change: contents;
+            }
+
+            .timeline-item::before {
+                content: "";
+                position: absolute;
+                left: -13px;
+                top: 4px;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: var(--timeline-dot);
+                border: 2px solid var(--timeline-dot-border);
+                animation: tick-pulse 2s ease-in-out infinite;
+                will-change: background, box-shadow;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+                transition:
+                    background 300ms ease-in-out,
+                    border-color 300ms ease-in-out;
+            }
+
+            .timeline-item:nth-child(1)::before {
+                animation-delay: 0s;
+            }
+
+            .timeline-item:nth-child(2)::before {
+                animation-delay: 0.5s;
+            }
+
+            .timeline-item:nth-child(3)::before {
+                animation-delay: 1s;
+            }
+
+            .timeline-item:nth-child(4)::before {
+                animation-delay: 1.5s;
+            }
+
+            @keyframes tick-pulse {
+                0% {
+                    background: var(--timeline-dot);
+                    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+                }
+                50% {
+                    background: var(--timeline-dot-border);
+                    box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.2);
+                }
+                100% {
+                    background: var(--timeline-dot);
+                    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+                }
+            }
+
+            html:not(.dark) @keyframes tick-pulse {
+                0% {
+                    background: var(--timeline-dot);
+                    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+                }
+                50% {
+                    background: var(--timeline-dot-border);
+                    box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.1);
+                }
+                100% {
+                    background: var(--timeline-dot);
+                    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+                }
+            }
+
+            .timeline-item-title {
+                font-weight: 600;
+                font-size: 16px;
+                color: var(--text-primary);
+                margin-bottom: 6px;
+                text-rendering: optimizeLegibility;
+                transition: color 300ms ease-in-out;
+            }
+
+            .timeline-item-description {
+                font-size: 14px;
+                color: var(--text-tertiary);
+                line-height: 1.4;
+                transition: color 300ms ease-in-out;
+            }
+
+            footer {
+                padding: 48px 5vw;
+                text-align: center;
+                color: var(--text-tertiary);
+                position: relative;
+                z-index: 20;
+                contain: layout style paint;
+                transition: color 300ms ease-in-out;
+            }
+
+            @media (max-width: 900px) {
+                header {
+                    padding: 18px 20px;
+                }
+                header .brand {
+                    font-size: 14px;
+                }
+                nav {
+                    font-size: 12px;
+                }
+                .cta {
+                    padding: 10px 16px;
+                    font-size: 14px;
+                }
+                .panel {
+                    flex-direction: column;
+                    gap: 32px;
+                }
+                .hero.even .panel {
+                    flex-direction: column;
+                }
+                .visual {
+                    order: 2;
+                    width: 100%;
+                }
+                .content {
+                    order: 1;
+                    width: 100%;
+                    padding: 32px;
+                }
+                .content .demo-image {
+                    max-width: 220px;
+                    height: 220px;
+                }
+                h2.title {
+                    font-size: 28px;
+                    line-height: 1.1;
+                }
+                p.lead {
+                    font-size: 16px;
+                }
+                .visual .mock {
+                    max-width: 100%;
+                    padding: 16px;
+                }
+                .code-snippet {
+                    padding: 14px;
+                    font-size: 12px;
+                    overflow-x: auto;
+                }
+                .pulse-line {
+                    display: block;
+                }
+                header .logo {
+                    display: none;
+                }
+                .timeline-container {
+                    padding-left: 24px;
+                    gap: 24px;
+                }
+                .timeline-item-title {
+                    font-size: 14px;
+                }
+                .timeline-item-description {
+                    font-size: 13px;
+                }
+                section.hero#how .panel {
+                    align-items: flex-start;
+                    flex-direction: column;
+                }
+                section.hero#how .visual {
+                    width: 100%;
+                }
+                section.hero#github .content {
+                    padding: 32px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                section.hero {
+                    padding: 5rem 4vw;
+                    min-height: auto;
+                }
+                h2.title {
+                    font-size: 24px;
+                }
+                p.lead {
+                    font-size: 14px;
+                }
+                .content {
+                    padding: 24px;
+                }
+                .visual .mock {
+                    padding: 12px;
+                }
+                .code-snippet {
+                    padding: 12px;
+                    font-size: 11px;
+                }
+                .timeline-container {
+                    padding-left: 20px;
+                    gap: 20px;
+                }
+                .timeline-item {
+                    padding-left: 20px;
+                }
+                .timeline-item::before {
+                    left: -11px;
+                    width: 8px;
+                    height: 8px;
+                }
+                .cta {
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    padding: 10px 14px;
+                    font-size: 13px;
+                }
+            }
+
+            /* Firefox specific optimizations */
+            @supports (-moz-appearance: none) {
+                .smooth-content {
+                    transform: translateZ(0);
+                }
+                .visual {
+                    transform: translateZ(0);
+                }
+                .content {
+                    mix-blend-mode: normal;
+                }
+            }
+
+            /* Safari specific optimizations */
+            @supports (-webkit-appearance: none) {
+                body {
+                    -webkit-font-smoothing: subpixel-antialiased;
+                }
+                .smooth-wrap {
+                    -webkit-transform: translateZ(0);
+                    -webkit-perspective: 1000;
+                }
+                .content {
+                    -webkit-backdrop-filter: blur(8px);
+                }
+                .cta.primary {
+                    -webkit-box-shadow: 0 8px 30px rgba(255, 255, 255, 0.12);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class="brand">
+                <div class="accent-dot"></div>
+                <div class="site">machlit/core</div>
+            </div>
+            <div class="logo">
+                <a href="#top">
+                    <img
+                        class="logo-image"
+                        src="assets/logo.png"
+                        data-dark="assets/logo.png"
+                        data-light="assets/logo-light.png"
+                    />
+                </a>
+            </div>
+            <nav style="display: flex; gap: 18px; align-items: center">
+                <a href="https://www.linkedin.com/company/machlit"
+                    ><i class="fab fa-linkedin"></i> LinkedIn</a
+                >
+                <a href="https://github.com/machlit" class="cta ghost"
+                    ><i class="fab fa-github"></i> GitHub</a
+                >
+            </nav>
+        </header>
+
+        <!-- pulsating center line -->
+        <div class="pulse-line"></div>
+
+        <!-- scroll indicator -->
+        <div class="scroll-indicator" id="scrollIndicator">Scroll down ↓</div>
+
+        <!-- spacer controls native scrollbar height: computed in JS -->
+        <div id="spacer"></div>
+
+        <!-- fixed wrapper which we'll translate for slow scroll effect -->
+        <div class="smooth-wrap">
+            <main class="smooth-content">
+                <!-- HERO -->
+                <section class="hero" id="top">
+                    <div class="panel">
+                        <div class="visual reveal">
+                            <img
+                                class="demo-image"
+                                src="assets/logo.png"
+                                data-dark="assets/logo.png"
+                                data-light="assets/logo-light.png"
+                            />
+                        </div>
+                        <div class="content reveal">
+                            <h2 class="title">
+                                Apps and tools for your Mac,
+                                <strong>which you'll <3</strong>
+                            </h2>
+                            <p class="lead">
+                                Ever felt the urge to decorate your Mac with
+                                functional apps and terminal CLIs? Scroll to
+                                find out what we're up to!
+                            </p>
+                            <div
+                                style="
+                                    display: flex;
+                                    gap: 14px;
+                                    align-items: center;
+                                    margin-top: 18px;
+                                    justify-content: center;
+                                "
+                            >
+                                <a
+                                    href="https://github.com/machlit"
+                                    class="cta primary"
+                                    ><i class="fab fa-github"></i> No, explore
+                                    everything!</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PRODUCT 1: FULLSCREEN LEFT -->
+                <section id="#starter" class="hero odd" data-index="1">
+                    <div class="panel">
+                        <div class="content reveal">
+                            <div class="demo-image">
+                                <img src="assets/cutler.png" />
+                            </div>
+                            <h2 class="title">
+                                <strong>cutler /</strong> setup your mac,
+                                automagically.
+                            </h2>
+                            <p class="lead">
+                                Declaratively put settings, apps, commands and
+                                tooling into one single TOML file and let cutler
+                                do the rest for you.
+                            </p>
+
+                            <div
+                                style="
+                                    margin-top: 22px;
+                                    display: flex;
+                                    gap: 12px;
+                                    flex-wrap: wrap;
+                                "
+                            >
+                                <a
+                                    href="https://github.com/machlit/cutler"
+                                    class="cta primary"
+                                    ><i class="fab fa-github"></i> Get
+                                    Started!</a
+                                >
+                                <a
+                                    href="https://machlit.github.io/cutler"
+                                    class="cta ghost"
+                                    >Read the docs</a
+                                >
+                            </div>
+                        </div>
+
+                        <div class="visual reveal">
+                            <div
+                                class="mock"
+                                style="
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 10px;
+                                "
+                            >
+                                <div style="font-weight: 700">Terminal</div>
+                                <pre
+                                    class="code-snippet"
+                                    style="margin: 0"
+                                    data-code="# Initialize a configuration file.
+cutler init
+
+# Modify using your preferred editor.
+nano ~/.config/cutler/config.toml
+
+# Apply your preferences.
+cutler apply
+
+# Review status.
+cutler status --verbose"
+                                ></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PRODUCT 2: FULLSCREEN RIGHT (reversed) -->
+                <section class="hero even" data-index="2">
+                    <div class="panel">
+                        <div class="content reveal">
+                            <h2 class="title">
+                                <strong>defaults-rs /</strong> defaults, but
+                                open source
+                            </h2>
+                            <p class="lead">
+                                Made in Rust with all its advantages; supports
+                                all PLIST data types that Mac does, and is made
+                                as a library + CLI hybrid.
+                            </p>
+                            <ul
+                                style="
+                                    margin-top: 18px;
+                                    color: var(--text-secondary);
+                                    list-style: none;
+                                    padding: 0;
+                                    display: grid;
+                                    grid-template-columns: repeat(
+                                        2,
+                                        minmax(0, 1fr)
+                                    );
+                                    gap: 8px;
+                                "
+                            >
+                                <li>• Type-safe defaults</li>
+                                <li>• Macro-free API</li>
+                                <li>• No dependencies</li>
+                                <li>• Compile-time verified</li>
+                            </ul>
+                            <div
+                                style="
+                                    margin-top: 22px;
+                                    display: flex;
+                                    gap: 12px;
+                                    flex-wrap: wrap;
+                                "
+                            >
+                                <a
+                                    href="https://github.com/machlit/defaults-rs"
+                                    class="cta primary"
+                                    ><i class="fab fa-github"></i> View
+                                    Source</a
+                                >
+                                <a
+                                    href="https://machlit.github.io/defaults-rs"
+                                    class="cta ghost"
+                                    >Documentation</a
+                                >
+                            </div>
+                        </div>
+
+                        <div class="visual reveal">
+                            <div class="mock" style="padding: 20px">
+                                <div
+                                    style="font-weight: 700; margin-bottom: 8px"
+                                >
+                                    Terminal
+                                </div>
+                                <pre
+                                    class="code-snippet"
+                                    style="margin: 0"
+                                    data-code="# read
+drs read  # fuzzy-search here! try it out
+
+# write
+drs write com.apple.dock tilesize --int 30
+
+# delete / reset
+drs delete -g AppleInterfaceStyle
+
+# and many more.."
+                                ></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- How it works -->
+                <section class="hero" id="how">
+                    <div class="panel" style="align-items: flex-start">
+                        <div class="content reveal">
+                            <h2 class="title">
+                                Beautiful tools, just one command away!
+                            </h2>
+                            <p class="lead">
+                                You can install our apps/tools using your
+                                favorite package manager. Homebrew, cargo, mise
+                                and self-installing scripts, you name it.
+
+                                <br /><br />For Homebrew, try this:
+                            </p>
+                            <div style="display: flex; gap: 12px"></div>
+                            <code> $ brew tap machlit/tap </code>
+                        </div>
+
+                        <div class="visual reveal">
+                            <div class="timeline-container">
+                                <h2 class="title">✨</h2>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-item-title">
+                                        Lightning-fast
+                                    </div>
+                                    <div class="timeline-item-description">
+                                        Our interfaces are written using
+                                        high-performance and type-safe code,
+                                        ensuring predictable usage.
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-item-title">
+                                        Highly compatible
+                                    </div>
+                                    <div class="timeline-item-description">
+                                        All of our tools have a default target
+                                        of <strong>macOS Big Sur 11.0+</strong>,
+                                        ensuring that your machine always
+                                        supports them.
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-item-title">
+                                        Headless (mostly)
+                                    </div>
+                                    <div class="timeline-item-description">
+                                        - ensuring you can even run them in CI.
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-item-title">
+                                        Cute... wait what?
+                                    </div>
+                                    <div class="timeline-item-description">
+                                        Yeah! Our terminal apps are geared
+                                        towards people who obsess over syntactic
+                                        sugar.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- GitHub / CTA -->
+                <section class="hero" id="github">
+                    <div
+                        class="panel"
+                        style="justify-content: center; max-width: 1100px"
+                    >
+                        <div
+                            class="content reveal"
+                            style="text-align: center; max-width: 760px"
+                        >
+                            <h2 class="title">
+                                See the code. Join the community.
+                            </h2>
+                            <p class="lead">
+                                Contributions, issues and discussions happen on
+                                GitHub. We welcome bug reports, PRs and ideas.
+                            </p>
+                            <div
+                                style="
+                                    margin-top: 22px;
+                                    display: flex;
+                                    gap: 12px;
+                                    justify-content: center;
+                                "
+                            >
+                                <a
+                                    href="https://github.com/machlit"
+                                    class="cta primary"
+                                    ><i class="fab fa-github"></i> Visit
+                                    GitHub</a
+                                >
+                                <!--<a href="#" class="cta ghost">Community</a>-->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <script>
+            // Detect system theme preference and set initial theme
+            function initTheme() {
+                const prefersDark = window.matchMedia(
+                    "(prefers-color-scheme: dark)",
+                ).matches;
+                const html = document.documentElement;
+
+                if (prefersDark) {
+                    html.classList.add("dark");
+                } else {
+                    html.classList.remove("dark");
+                }
+                updateLogoSrc();
+            }
+
+            // Initialize theme on page load
+            initTheme();
+
+            // Listen for theme preference changes
+            window
+                .matchMedia("(prefers-color-scheme: dark)")
+                .addEventListener("change", (e) => {
+                    const html = document.documentElement;
+                    if (e.matches) {
+                        html.classList.add("dark");
+                    } else {
+                        html.classList.remove("dark");
+                    }
+                    updateLogoSrc();
+                });
+
+            // Update logo src based on theme
+            function updateLogoSrc() {
+                const logoImage = document.querySelector(
+                    "header .logo .logo-image",
+                );
+                if (!logoImage) return;
+
+                const isDark =
+                    document.documentElement.classList.contains("dark");
+                const darkSrc = logoImage.getAttribute("data-dark");
+                const lightSrc = logoImage.getAttribute("data-light");
+
+                logoImage.src = isDark ? darkSrc : lightSrc;
+            }
+
+            // Build spacer height to match content
+            const content = document.querySelector(".smooth-content");
+            const spacer = document.getElementById("spacer");
+
+            function updateSpacer() {
+                // total height equals number of hero sections * viewport height
+                const sections = document.querySelectorAll("section.hero");
+                const total = sections.length * window.innerHeight;
+                spacer.style.height = total + "px";
+            }
+            window.addEventListener("resize", updateSpacer);
+            updateSpacer();
+
+            // Smooth/slow scroll: interpolate transform towards window.scrollY
+            const smoothEl = document.querySelector(".smooth-content");
+            let current = 0;
+            let target = 0;
+            const ease = 0.06; // lower -> slower, tighter lag
+
+            // Track parallax offset for visual elements (cards move faster)
+            let parallaxCurrent = 0;
+            const parallaxEase = 0.08; // slightly higher ease = faster movement
+
+            function raf() {
+                target = window.scrollY || window.pageYOffset;
+                current += (target - current) * ease;
+                parallaxCurrent += (target - parallaxCurrent) * parallaxEase;
+                // round to avoid subpixel jitter affecting text clarity
+                const rounded = Math.round(current * 100) / 100;
+                smoothEl.style.transform = `translateY(${-rounded}px)`;
+
+                // Apply parallax offset to visual elements
+                const visualEls = document.querySelectorAll(".visual");
+                visualEls.forEach((el) => {
+                    const parallaxOffset = parallaxCurrent - current;
+                    el.style.transform = `translateY(${parallaxOffset * 0.15}px)`;
+                });
+
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+
+            // Reveal elements when near viewport (works with transformed container)
+            const revealEls = document.querySelectorAll(".reveal");
+            function checkReveal() {
+                const viewportTop = current; // use smoothed current for subtle timing
+                const vh = window.innerHeight;
+                revealEls.forEach((el) => {
+                    const rect = el.getBoundingClientRect();
+                    const top = rect.top + current; // element's top relative to document
+                    const threshold = vh * 0.7; // reveal when 70% into view
+                    if (top < viewportTop + threshold) {
+                        el.classList.add("in-view");
+                    }
+                });
+            }
+
+            // run check periodically alongside raf
+            function rafReveal() {
+                checkReveal();
+                requestAnimationFrame(rafReveal);
+            }
+            requestAnimationFrame(rafReveal);
+
+            // Update scroll indicator based on scroll position and remaining content
+            function updateScrollIndicator() {
+                const scrollIndicator =
+                    document.getElementById("scrollIndicator");
+                const scrollY = window.scrollY || window.pageYOffset;
+                const docHeight = document.documentElement.scrollHeight;
+                const windowHeight = window.innerHeight;
+                const maxScroll = docHeight - windowHeight;
+                const scrollPercentage =
+                    maxScroll > 0 ? (scrollY / maxScroll) * 100 : 0;
+
+                // Only show scroll down at the start, hide once user reaches near the end
+                if (scrollPercentage < 10) {
+                    // At top: show scroll down
+                    scrollIndicator.textContent = `Scroll down ↓`;
+                    scrollIndicator.classList.remove("hidden");
+                } else {
+                    // Anywhere else: hide indicator
+                    scrollIndicator.classList.add("hidden");
+                }
+            }
+
+            window.addEventListener("scroll", updateScrollIndicator);
+            window.addEventListener("resize", updateScrollIndicator);
+            updateScrollIndicator();
+
+            // Optional: smooth wheel damping (prevent very large jumps on fast wheels)
+            // We leave native scroll but the slow interpolation creates the desired effect.
+
+            // Improve performance: reduce motion for users who prefer reduced motion
+            const prefersReduced = window.matchMedia(
+                "(prefers-reduced-motion: reduce)",
+            ).matches;
+            if (prefersReduced) {
+                // disable transforms and smooth effect
+                smoothEl.style.transform = "none";
+                // remove RAF loops by not starting them (they've already started — simple fallback: set ease to 1)
+            }
+
+            // Typewriter effect for code snippets
+            function typewriterEffect(element, speed = 30) {
+                const fullText = element.getAttribute("data-code");
+                if (!fullText) return;
+
+                element.textContent = "";
+                let index = 0;
+
+                function type() {
+                    if (index < fullText.length) {
+                        element.textContent += fullText.charAt(index);
+                        index++;
+                        setTimeout(type, speed);
+                    }
+                }
+
+                type();
+            }
+
+            // Initialize typewriter effect when code snippets come into view
+            const codeSnippets = document.querySelectorAll(
+                ".code-snippet[data-code]",
+            );
+            const snippetObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (
+                            entry.isIntersecting &&
+                            !entry.target.classList.contains("typed")
+                        ) {
+                            entry.target.classList.add("typed");
+                            typewriterEffect(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.5 },
+            );
+
+            codeSnippets.forEach((snippet) => {
+                snippetObserver.observe(snippet);
+            });
+
+            // Logo animation: show in navbar when scrolling past first section (desktop only)
+            const logoImage = document.querySelector(
+                "header .logo .logo-image",
+            );
+            function updateLogoVisibility() {
+                const scrollY = window.scrollY || window.pageYOffset;
+                const firstSectionHeight = window.innerHeight;
+                const isDesktop =
+                    window.matchMedia("(min-width: 901px)").matches;
+
+                if (scrollY > firstSectionHeight * 0.5 && isDesktop) {
+                    logoImage.classList.add("visible");
+                } else {
+                    logoImage.classList.remove("visible");
+                }
+            }
+
+            window.addEventListener("scroll", updateLogoVisibility);
+            window.addEventListener("resize", updateLogoVisibility);
+            updateLogoVisibility();
+
+            // Basic link passive handlers for mobile
+            document.querySelectorAll('a[href^="#"]').forEach((a) => {
+                a.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const id = a.getAttribute("href").slice(1);
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    // scroll instantly to native position then allow smooth lag to catch up
+                    window.scrollTo({
+                        top: el.offsetTop,
+                        behavior:
+                            "instant" in HTMLDivElement.prototype
+                                ? "instant"
+                                : "auto",
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
