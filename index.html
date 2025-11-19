@@ -571,6 +571,17 @@
                 display: none;
             }
 
+            /* Mac highlight */
+            .mac-highlight {
+                color: #ffffff;
+                display: inline-block;
+                text-shadow: 0px 0px 10px #ffffff;
+            }
+
+            html:not(.dark) .mac-highlight {
+                color: #0a0a0a;
+            }
+
             /* Timeline styles for how it works section */
             .timeline-container {
                 display: flex;
@@ -880,12 +891,7 @@
                         <div class="content reveal">
                             <h2 class="title">
                                 Apps and tools for your
-                                <span
-                                    style="
-                                        color: #ffffff;
-                                        display: inline-block;
-                                        text-shadow: 0px 0px 10px #ffffff;
-                                    "
+                                <span class="mac-highlight"
                                     ><i class="fa-brands fa-apple"></i>
                                     Mac</span
                                 >
