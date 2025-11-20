@@ -56,6 +56,7 @@ html,
 body {
     height: 100%;
 }
+
 body {
     margin: 0;
     background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 100%);
@@ -72,14 +73,13 @@ body {
         Arial;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden; /* prevent horizontal scroll */
+    overflow-x: hidden;
     will-change: background;
     transition:
         background 300ms ease-in-out,
         color 300ms ease-in-out;
     -webkit-user-select: none;
     -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
 }
 
@@ -128,6 +128,7 @@ header .brand {
     align-items: center;
     color: #888888;
 }
+
 header .logo {
     position: absolute;
     left: 50%;
@@ -138,6 +139,7 @@ header .logo {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
+
 header .logo .logo-image {
     width: 60px;
     height: 60px;
@@ -145,9 +147,11 @@ header .logo .logo-image {
     transition: opacity 300ms ease-in-out;
     will-change: opacity;
 }
+
 header .logo .logo-image.visible {
     opacity: 1;
 }
+
 header a {
     color: #888888;
     text-decoration: none;
@@ -171,6 +175,7 @@ header a i {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
+
 .smooth-content {
     position: relative;
     width: 100%;
@@ -206,6 +211,7 @@ header a i {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
+
 .scroll-indicator.hidden {
     opacity: 0;
     pointer-events: none;
@@ -330,6 +336,7 @@ h1.site {
     font-size: 22px;
     font-weight: 700;
 }
+
 .kicker {
     display: inline-block;
     padding: 6px 12px;
@@ -364,6 +371,7 @@ h2.title {
     text-rendering: optimizeLegibility;
     transition: color 300ms ease-in-out;
 }
+
 p.lead {
     color: var(--text-secondary);
     font-size: 18px;
@@ -382,6 +390,7 @@ p.lead {
     -webkit-user-select: none;
     user-select: none;
 }
+
 .cta.primary {
     background: var(--cta-primary-bg);
     box-shadow: 0 8px 30px rgba(255, 255, 255, 0.12);
@@ -409,6 +418,7 @@ html:not(.dark) .cta.primary:hover {
 .cta.primary:active {
     transform: translateY(0);
 }
+
 .cta.ghost {
     border: 1px solid var(--cta-ghost-border);
     background: transparent;
@@ -417,6 +427,7 @@ html:not(.dark) .cta.primary:hover {
         border-color 150ms ease-in-out,
         background-color 150ms ease-in-out;
 }
+
 .cta.ghost:hover {
     border-color: var(--cta-ghost-border-hover);
     background: var(--cta-ghost-bg-hover);
@@ -433,6 +444,7 @@ html:not(.dark) .cta.primary:hover {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
+
 .reveal.in-view {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -497,14 +509,12 @@ html:not(.dark) .code-snippet {
 }
 
 @keyframes pulse {
-    0% {
+    0%,
+    100% {
         opacity: 0.3;
     }
     50% {
         opacity: 1;
-    }
-    100% {
-        opacity: 0.3;
     }
 }
 
@@ -624,7 +634,11 @@ html:not(.dark) .mac-highlight {
     }
 }
 
-html:not(.dark) @keyframes tick-pulse {
+html:not(.dark) .timeline-item::before {
+    animation-name: tick-pulse-light;
+}
+
+@keyframes tick-pulse-light {
     0% {
         background: var(--timeline-dot);
         box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
@@ -721,57 +735,46 @@ html:not(.dark) .floating-symbol pre {
     left: 5%;
     top: 10%;
 }
-
 .floating-symbol:nth-child(2) {
     right: 8%;
     top: 15%;
 }
-
 .floating-symbol:nth-child(3) {
     left: 10%;
     bottom: 20%;
 }
-
 .floating-symbol:nth-child(4) {
     right: 12%;
     bottom: 25%;
 }
-
 .floating-symbol:nth-child(5) {
     left: 20%;
     top: 25%;
 }
-
 .floating-symbol:nth-child(6) {
     right: 18%;
     top: 40%;
 }
-
 .floating-symbol:nth-child(7) {
     left: 15%;
     top: 20%;
 }
-
 .floating-symbol:nth-child(8) {
     right: 20%;
     bottom: 30%;
 }
-
 .floating-symbol:nth-child(9) {
     left: 8%;
     bottom: 15%;
 }
-
 .floating-symbol:nth-child(10) {
     right: 5%;
     top: 25%;
 }
-
 .floating-symbol:nth-child(11) {
     left: 25%;
     bottom: 10%;
 }
-
 .floating-symbol:nth-child(12) {
     right: 25%;
     top: 50%;
@@ -931,12 +934,16 @@ html:not(.dark) .floating-symbol pre {
     }
     .smooth-wrap {
         -webkit-transform: translateZ(0);
+        transform: translateZ(0);
         -webkit-perspective: 1000;
+        perspective: 1000;
     }
     .content {
         -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
     }
     .cta.primary {
         -webkit-box-shadow: 0 8px 30px rgba(255, 255, 255, 0.12);
+        box-shadow: 0 8px 30px rgba(255, 255, 255, 0.12);
     }
 }
