@@ -676,15 +676,47 @@ footer {
 
 .floating-symbol {
     position: absolute;
-    font-size: 48px;
-    color: var(--text-primary);
-    opacity: 0.4;
     z-index: 0;
     pointer-events: none;
     transition: color 300ms ease-in-out;
 }
 
-/* Vary positioning for each symbol */
+.floating-symbol pre {
+    margin: 0;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--text-primary);
+    opacity: 0.35;
+    font-family: "Courier New", monospace;
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-width: 180px;
+}
+
+.floating-symbol code {
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+}
+
+html.dark .floating-symbol pre {
+    background-color: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e0e0e0;
+}
+
+html:not(.dark) .floating-symbol pre {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #333;
+}
+
+/* Vary positioning for each code block */
 .floating-symbol:nth-child(1) {
     left: 5%;
     top: 10%;
@@ -829,6 +861,12 @@ footer {
     }
     .floating-icons-container {
         display: none;
+    }
+
+    .floating-symbol pre {
+        max-width: 120px;
+        font-size: 9px;
+        padding: 8px;
     }
 }
 

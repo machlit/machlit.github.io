@@ -310,20 +310,79 @@ drs delete -g AppleInterfaceStyle
 
                 <!-- GitHub / CTA -->
                 <section class="hero" id="github">
-                    <!-- Floating geometric symbols -->
+                    <!-- Floating code blocks -->
                     <div class="floating-icons-container">
-                        <div class="floating-symbol" data-depth="0.2">□</div>
-                        <div class="floating-symbol" data-depth="0.5">■</div>
-                        <div class="floating-symbol" data-depth="0.3">○</div>
-                        <div class="floating-symbol" data-depth="0.7">●</div>
-                        <div class="floating-symbol" data-depth="0.4">◇</div>
-                        <div class="floating-symbol" data-depth="0.6">◆</div>
-                        <div class="floating-symbol" data-depth="0.35">△</div>
-                        <div class="floating-symbol" data-depth="0.55">▲</div>
-                        <div class="floating-symbol" data-depth="0.45">★</div>
-                        <div class="floating-symbol" data-depth="0.65">✦</div>
-                        <div class="floating-symbol" data-depth="0.25">◈</div>
-                        <div class="floating-symbol" data-depth="0.75">⬟</div>
+                        <div class="floating-symbol" data-depth="0.2">
+                            <pre><code>let pool = unsafe {
+  CFAutoreleasePoolNew()
+};</code></pre>
+                        </div>
+                        <div class="floating-symbol" data-depth="0.5">
+                            <pre><code>CFStringCreateWithCString(
+  kCFAllocatorDefault,
+  "Hello",
+  kCFStringEncodingUTF8
+)</code></pre>
+                        </div>
+                        <div class="floating-symbol" data-depth="0.3">
+                            <pre><code>CFDictionaryCreateMutable(
+  kCFAllocatorDefault,
+  0,
+  &kCFTypeDictionaryKeyCallBacks
+)</code></pre>
+                        </div>
+                        <div class="floating-symbol" data-depth="0.7">
+                            <pre><code>CFRetain(obj);
+CFRelease(obj);</code></pre>
+                        </div>
+                        <div class="floating-symbol" data-depth="0.4">
+                            <pre><code>CFArrayCreateMutable(
+  kCFAllocatorDefault,
+  0,
+  &kCFTypeArrayCallBacks
+)</code></pre>
+                        </div>
+                        <div class="floating-symbol" data-depth="0.6">
+                            <pre><code>let type_id =
+  CFGetTypeID(value);</code></pre>
+                        </div>
+                        <div class="floating-symbol" data-depth="0.35">
+                            <pre><code>CFNumberCreate(
+  kCFAllocatorDefault,
+  kCFNumberIntType,
+  &num
+)</code></pre>
+                        </div>
+                        <div class="floating-symbol" data-depth="0.55">
+                            <pre><code>let bundled =
+  CFBundleGetMainBundle();</code></pre>
+                        </div>
+                        <div class="floating-symbol" data-depth="0.45">
+                            <pre><code>CFURLCreateWithFileSystemPath(
+  kCFAllocatorDefault,
+  path,
+  kCFURLPOSIXPathStyle,
+  false
+)</code></pre>
+                        </div>
+                        <div class="floating-symbol" data-depth="0.65">
+                            <pre><code>unsafe {
+  CFRelease(pool);
+}</code></pre>
+                        </div>
+                        <div class="floating-symbol" data-depth="0.25">
+                            <pre><code>let data =
+  CFDataCreateWithBytesNoCopy(
+    kCFAllocatorDefault,
+    bytes,
+    len,
+    kCFAllocatorNull
+  );</code></pre>
+                        </div>
+                        <div class="floating-symbol" data-depth="0.75">
+                            <pre><code>CFComparisonResult::
+kCFCompareLessThan</code></pre>
+                        </div>
                     </div>
 
                     <div
