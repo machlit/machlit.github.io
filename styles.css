@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Stack+Sans+Notch:wght@200..700&display=swap");
+
 :root {
     color-scheme: light dark;
 }
@@ -338,8 +340,11 @@ html:not(.dark) .visual .mock {
 }
 
 h1.site {
-    font-size: 22px;
+    font-family: "Stack Sans Notch", sans-serif;
+    font-optical-sizing: auto;
     font-weight: 700;
+    font-style: normal;
+    font-size: 22px;
 }
 
 .kicker {
@@ -370,6 +375,9 @@ html:not(.dark) .kicker {
 }
 
 h2.title {
+    font-family: "Stack Sans Notch", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
     font-size: 48px;
     line-height: 1.02;
     margin: 0 0 16px;
@@ -670,7 +678,10 @@ html:not(.dark) .timeline-item::before {
 }
 
 .timeline-item-title {
+    font-family: "Stack Sans Notch", sans-serif;
+    font-optical-sizing: auto;
     font-weight: 600;
+    font-style: normal;
     font-size: 16px;
     color: var(--text-primary);
     margin-bottom: 6px;
