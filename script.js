@@ -78,12 +78,12 @@ function raf() {
     el.style.transform = `translateY(${parallaxOffset * 0.15}px)`;
   });
 
-  // Apply parallax depth to floating icons
-  const floatingIcons = document.querySelectorAll(".floating-icon");
-  floatingIcons.forEach((icon) => {
-    const depth = parseFloat(icon.getAttribute("data-depth")) || 0.5;
+  // Apply parallax depth to floating symbols
+  const floatingSymbols = document.querySelectorAll(".floating-symbol");
+  floatingSymbols.forEach((symbol) => {
+    const depth = parseFloat(symbol.getAttribute("data-depth")) || 0.5;
     const parallaxOffset = parallaxCurrent - current;
-    icon.style.transform = `translateY(${parallaxOffset * depth}px)`;
+    symbol.style.transform = `translateY(${parallaxOffset * depth}px)`;
   });
 
   requestAnimationFrame(raf);
