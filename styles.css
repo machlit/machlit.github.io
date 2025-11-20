@@ -122,6 +122,7 @@ header .brand {
     display: flex;
     gap: 12px;
     align-items: center;
+    color: #888888;
 }
 header .logo {
     position: absolute;
@@ -144,10 +145,14 @@ header .logo .logo-image.visible {
     opacity: 1;
 }
 header a {
-    color: var(--text-primary);
-    opacity: 0.8;
+    color: #888888;
     text-decoration: none;
-    transition: opacity 300ms ease-in-out;
+    transition: color 300ms ease-in-out;
+}
+
+header a i {
+    font-size: 20px;
+    color: #888888;
 }
 
 /* fixed content wrapper for smooth transform */
@@ -211,6 +216,7 @@ section.hero {
     padding: 6rem 5vw;
     box-sizing: border-box;
     contain: layout style paint;
+    position: relative;
 }
 
 .panel {
@@ -244,6 +250,8 @@ section.hero {
         background 300ms ease-in-out,
         border-color 300ms ease-in-out,
         box-shadow 300ms ease-in-out;
+    position: relative;
+    z-index: 2;
 }
 
 html:not(.dark) .content {
@@ -408,20 +416,6 @@ html:not(.dark) .cta.primary:hover {
 .cta.ghost:hover {
     border-color: var(--cta-ghost-border-hover);
     background: var(--cta-ghost-bg-hover);
-}
-
-/* small decorative accent */
-.accent-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 999px;
-    background: var(--dot-bg);
-    box-shadow: 0 6px 22px var(--glow);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    transition:
-        background 300ms ease-in-out,
-        box-shadow 300ms ease-in-out;
 }
 
 /* reveal */
@@ -667,6 +661,153 @@ footer {
     transition: color 300ms ease-in-out;
 }
 
+/* Floating Icons Container */
+.floating-icons-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.floating-icon {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    border: 1px solid transparent;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    transition:
+        background-color 300ms ease-in-out,
+        color 300ms ease-in-out;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    z-index: 0;
+}
+
+html.dark .floating-icon {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Rust - Orange/Red */
+.floating-icon[data-color="rust"] {
+    background:
+        linear-gradient(135deg, #ce422b 0%, #e07856 100%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    color: white;
+}
+
+/* Swift - Orange */
+.floating-icon[data-color="swift"] {
+    background:
+        linear-gradient(135deg, #fa7343 0%, #ff8b5f 100%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    color: white;
+}
+
+/* Apple - Gray/Black */
+.floating-icon[data-color="apple"] {
+    background:
+        linear-gradient(135deg, #333333 0%, #555555 100%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    color: white;
+}
+
+html:not(.dark) .floating-icon[data-color="apple"] {
+    background:
+        linear-gradient(135deg, #a9a9a9 0%, #cccccc 100%),
+        linear-gradient(135deg, rgba(0, 0, 0, 0.1), transparent);
+    color: #333;
+}
+
+/* GitHub - Dark Blue/Black */
+.floating-icon[data-color="github"] {
+    background:
+        linear-gradient(135deg, #1f6feb 0%, #3b82f6 100%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    color: white;
+}
+
+html:not(.dark) .floating-icon[data-color="github"] {
+    background:
+        linear-gradient(135deg, #2d3748 0%, #4a5568 100%),
+        linear-gradient(135deg, rgba(0, 0, 0, 0.1), transparent);
+    color: white;
+}
+
+/* Laptop - Purple/Blue */
+.floating-icon[data-color="laptop"] {
+    background:
+        linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    color: white;
+    font-size: 56px;
+}
+
+html:not(.dark) .floating-icon[data-color="laptop"] {
+    background:
+        linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%),
+        linear-gradient(135deg, rgba(0, 0, 0, 0.1), transparent);
+    color: white;
+}
+
+/* Rocket - Yellow/Orange */
+.floating-icon[data-color="rocket"] {
+    background:
+        linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    color: white;
+    font-size: 56px;
+}
+
+html:not(.dark) .floating-icon[data-color="rocket"] {
+    background:
+        linear-gradient(135deg, #d97706 0%, #f59e0b 100%),
+        linear-gradient(135deg, rgba(0, 0, 0, 0.1), transparent);
+    color: white;
+}
+
+/* Vary rotation for each icon */
+.floating-icon:nth-child(1) {
+    left: 5%;
+    top: 10%;
+    transform: rotate(15deg);
+}
+
+.floating-icon:nth-child(2) {
+    right: 8%;
+    top: 15%;
+    transform: rotate(-20deg);
+}
+
+.floating-icon:nth-child(3) {
+    left: 10%;
+    bottom: 20%;
+    transform: rotate(25deg);
+}
+
+.floating-icon:nth-child(4) {
+    right: 12%;
+    bottom: 25%;
+    transform: rotate(-15deg);
+}
+
+.floating-icon:nth-child(5) {
+    left: 20%;
+    top: 25%;
+    transform: rotate(10deg);
+}
+
+.floating-icon:nth-child(6) {
+    right: 18%;
+    top: 40%;
+    transform: rotate(-25deg);
+}
+
 @media (max-width: 900px) {
     header {
         padding: 18px 20px;
@@ -676,6 +817,9 @@ footer {
     }
     nav {
         font-size: 12px;
+    }
+    nav a i {
+        font-size: 24px;
     }
     .cta {
         padding: 10px 16px;
