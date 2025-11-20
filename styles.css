@@ -941,30 +941,23 @@ html:not(.dark) .floating-symbol pre {
 }
 
 /* Firefox specific optimizations */
-@-moz-document url-prefix() {
-    .smooth-content {
-        transform: translateZ(0);
-    }
-    .visual {
-        transform: translateZ(0);
-    }
-    .content {
-        mix-blend-mode: normal;
-    }
-    body {
-        -moz-osx-font-smoothing: grayscale;
-    }
-}
-
 @supports (-moz-appearance: none) {
     .smooth-content {
-        transform: translateZ(0);
+        will-change: auto;
     }
     .visual {
-        transform: translateZ(0);
+        will-change: auto;
     }
     .content {
-        mix-blend-mode: normal;
+        backdrop-filter: none;
+    }
+    body {
+        -moz-osx-font-smoothing: auto;
+    }
+    .timeline-item::before {
+        animation: none;
+        background: var(--timeline-dot);
+        box-shadow: none;
     }
 }
 
