@@ -726,10 +726,8 @@ footer {
     margin: 0;
     padding: 12px;
     border-radius: 8px;
-    background-color: rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background-color: #1a1a1a;
+    border: 1px solid #333333;
     font-size: 11px;
     line-height: 1.4;
     color: var(--text-primary);
@@ -747,14 +745,14 @@ footer {
 }
 
 html.dark .floating-symbol pre {
-    background-color: rgba(0, 0, 0, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: #1a1a1a;
+    border: 1px solid #333333;
     color: #e0e0e0;
 }
 
 html:not(.dark) .floating-symbol pre {
-    background-color: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
     color: #333;
 }
 
