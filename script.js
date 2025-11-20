@@ -37,6 +37,17 @@ function updateLogoSrc() {
   const lightSrc = logoImage.getAttribute("data-light");
 
   logoImage.src = isDark ? darkSrc : lightSrc;
+
+  const demoLogoImage = document.querySelector(
+    "section.hero#top .visual .demo-image",
+  );
+  if (!demoLogoImage) return;
+
+  const isDemoDark = document.documentElement.classList.contains("dark");
+  const demoDarkSrc = demoLogoImage.getAttribute("data-dark");
+  const demoLightSrc = demoLogoImage.getAttribute("data-light");
+
+  demoLogoImage.src = isDemoDark ? demoDarkSrc : lightSrc;
 }
 
 // Build spacer height to match content
