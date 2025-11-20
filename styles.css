@@ -750,7 +750,10 @@ footer {
         padding: 18px 20px;
     }
     header .brand {
-        font-size: 14px;
+        font-size: 12px;
+    }
+    .site {
+        font-size: 10px;
     }
     nav {
         font-size: 12px;
@@ -823,6 +826,9 @@ footer {
     }
     section.hero#github .content {
         padding: 32px;
+    }
+    .floating-icons-container {
+        display: none;
     }
 }
 
