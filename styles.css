@@ -446,6 +446,12 @@ html:not(.dark) .cta.primary:hover {
     background: var(--cta-ghost-bg-hover);
 }
 
+.code-cute {
+    padding: 5px;
+    border-radius: 9px;
+    background: #f0f0f0;
+}
+
 /* reveal */
 .reveal {
     opacity: 0;
