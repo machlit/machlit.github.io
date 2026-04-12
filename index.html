@@ -1,431 +1,386 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>Machlit — Developer Tools</title>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Machlit</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
+            href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&display=swap"
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         />
         <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
-        <header>
-            <div class="brand">
-                <div class="site">© 2025 Machlit; A.R.R.</div>
-            </div>
-            <div class="logo">
-                <a href="#top">
-                    <img
-                        class="logo-image"
-                        src="assets/logo.png"
-                        data-dark="assets/logo.png"
-                        data-light="assets/logo-light.png"
-                    />
-                </a>
-            </div>
-            <nav style="display: flex; gap: 18px; align-items: center">
-                <a href="https://www.linkedin.com/company/machlit"
-                    ><i class="fab fa-linkedin"></i
-                ></a>
-                <a href="https://github.com/machlit" class="cta ghost"
-                    ><i class="fab fa-github"></i
-                ></a>
-            </nav>
-        </header>
+        <nav id="nav">
+            <span id="nav-logo"
+                ><img src="assets/logo-light.png" /> Machlit</span
+            >
+            <a id="nav-link" href="https://github.com/machlit" target="_blank"
+                >GitHub</a
+            >
+        </nav>
 
-        <!-- pulsating center line -->
-        <div class="pulse-line"></div>
-
-        <!-- scroll indicator -->
-        <div class="scroll-indicator" id="scrollIndicator">Scroll down ↓</div>
-
-        <!-- spacer controls native scrollbar height: computed in JS -->
-        <div id="spacer"></div>
-
-        <!-- fixed wrapper which we'll translate for slow scroll effect -->
-        <div class="smooth-wrap">
-            <main class="smooth-content">
-                <!-- HERO -->
-                <section class="hero" id="top">
-                    <div class="panel">
-                        <div class="visual reveal">
-                            <img
-                                class="demo-image"
-                                src="assets/logo.png"
-                                data-dark="assets/logo.png"
-                                data-light="assets/logo-light.png"
-                            />
-                        </div>
-                        <div class="content reveal">
-                            <h2 class="title">
-                                <span class="mac-highlight"
-                                    ><i class="fa-brands fa-apple"></i>
-                                    Mac</span
-                                >
-                                tools you'll <3
-                            </h2>
-                            <p class="lead">
-                                Ever felt the urge to fill up your Mac with
-                                functional apps and terminal CLIs? Scroll to
-                                find out what we're up to!
-                            </p>
-                            <div
-                                style="
-                                    display: flex;
-                                    gap: 14px;
-                                    align-items: center;
-                                    margin-top: 18px;
-                                    justify-content: center;
-                                "
-                            >
-                                <a
-                                    href="https://github.com/machlit"
-                                    class="cta primary"
-                                    ><i class="fab fa-github"></i> No, explore
-                                    everything!</a
-                                >
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- PRODUCT 1: FULLSCREEN LEFT -->
-                <section id="#starter" class="hero odd" data-index="1">
-                    <div class="panel">
-                        <div class="content reveal">
-                            <div class="demo-image">
-                                <img src="assets/cutler.png" />
-                            </div>
-                            <h2 class="title">
-                                <strong>cutler /</strong> setup your Mac,
-                                <i class="fa-solid fa-wand-sparkles"></i>
-                                <i>automagically.</i>
-                            </h2>
-                            <p class="lead">
-                                Declaratively put settings, apps, commands and
-                                tooling into one single TOML file and let cutler
-                                do the rest for you.
-                            </p>
-
-                            <div
-                                style="
-                                    margin-top: 22px;
-                                    display: flex;
-                                    gap: 12px;
-                                    flex-wrap: wrap;
-                                "
-                            >
-                                <a
-                                    href="https://github.com/machlit/cutler"
-                                    class="cta primary"
-                                    ><i class="fab fa-github"></i> Get
-                                    Started!</a
-                                >
-                                <a
-                                    href="https://machlit.github.io/cutler"
-                                    class="cta ghost"
-                                    >Read the docs</a
-                                >
-                            </div>
-                        </div>
-
-                        <div class="visual reveal">
-                            <div
-                                class="mock"
-                                style="
-                                    display: flex;
-                                    flex-direction: column;
-                                    gap: 10px;
-                                "
-                            >
-                                <div style="font-weight: 700">Terminal</div>
-                                <pre
-                                    class="code-snippet"
-                                    style="margin: 0"
-                                    data-code="# Initialize a configuration file.
-cutler init
-
-# Modify using your preferred editor.
-nano ~/.config/cutler/config.toml
-
-# Apply your preferences.
-cutler apply
-
-# Review status.
-cutler status --verbose"
-                                ></pre>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- PRODUCT 2: FULLSCREEN RIGHT (reversed) -->
-                <section class="hero even" data-index="2">
-                    <div class="panel">
-                        <div class="content reveal">
-                            <code>lib + cli</code>
-                            <h2 class="title">
-                                <strong>defaults-rs /</strong> defaults, but
-                                open-source.
-                            </h2>
-                            <p class="lead">
-                                Access and alter your preferences with Machlit's
-                                open-source version of the original
-                                <code>defaults</code> tool by Apple.
-                            </p>
-                            <ul
-                                style="
-                                    margin-top: 18px;
-                                    color: var(--text-secondary);
-                                    list-style: none;
-                                    padding: 0;
-                                    display: grid;
-                                    grid-template-columns: repeat(
-                                        2,
-                                        minmax(0, 1fr)
-                                    );
-                                    gap: 8px;
-                                "
-                            >
-                                <li>✓ Fuzzy-finding</li>
-                                <li>✓ Native Rust API</li>
-                                <li>✓ Low to zero dependencies</li>
-                                <li>✓ Uses CoreFoundation</li>
-                            </ul>
-                            <div
-                                style="
-                                    margin-top: 22px;
-                                    display: flex;
-                                    gap: 12px;
-                                    flex-wrap: wrap;
-                                "
-                            >
-                                <a
-                                    href="https://github.com/machlit/defaults-rs"
-                                    class="cta primary"
-                                    ><i class="fab fa-github"></i> View
-                                    Source</a
-                                >
-                                <a
-                                    href="https://docs.rs/defaults-rs/"
-                                    class="cta ghost"
-                                    >docs.rs</a
-                                >
-                            </div>
-                        </div>
-
-                        <div class="visual reveal">
-                            <div class="mock" style="padding: 20px">
-                                <div
-                                    style="font-weight: 700; margin-bottom: 8px"
-                                >
-                                    Terminal
-                                </div>
-                                <pre
-                                    class="code-snippet"
-                                    style="margin: 0"
-                                    data-code="# read
-drs read  # fuzzy-search here! try it out
-
-# write
-drs write com.apple.dock tilesize --int 30
-
-# delete / reset
-drs delete -g AppleInterfaceStyle
-
-# and many more.."
-                                ></pre>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- How it works -->
-                <section class="hero" id="how">
-                    <div class="panel" style="align-items: flex-start">
-                        <div class="content reveal">
-                            <h2 class="title">
-                                Beautiful tools, just one command away!
-                            </h2>
-                            <p class="lead">
-                                You can install our apps/tools using your
-                                favorite package manager. Homebrew, cargo, mise
-                                and self-installing scripts, you name it.
-
-                                <br /><br />For Homebrew, try this:
-                            </p>
-                            <div style="display: flex; gap: 12px"></div>
-                            <code> $ brew tap machlit/tap </code>
-                        </div>
-
-                        <div class="visual reveal">
-                            <div class="timeline-container">
-                                <h2 class="title">✨</h2>
-
-                                <div class="timeline-item">
-                                    <div class="timeline-item-title">
-                                        Lightning-fast
-                                    </div>
-                                    <div class="timeline-item-description">
-                                        Our interfaces are written using
-                                        high-performance and type-safe code,
-                                        ensuring predictable usage.
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-item-title">
-                                        Highly compatible
-                                    </div>
-                                    <div class="timeline-item-description">
-                                        All of our tools have a default target
-                                        of <strong>macOS Big Sur 11.0+</strong>,
-                                        ensuring that your machine always
-                                        supports them.
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-item-title">
-                                        Headless (mostly)
-                                    </div>
-                                    <div class="timeline-item-description">
-                                        - ensuring you can even run them in CI.
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-item-title">
-                                        Cute... wait what?
-                                    </div>
-                                    <div class="timeline-item-description">
-                                        Yeah! Our terminal apps are geared
-                                        towards people who obsess over syntactic
-                                        sugar.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- GitHub / CTA -->
-                <section class="hero" id="github">
-                    <!-- Floating code blocks -->
-                    <div class="floating-icons-container reveal">
-                        <div class="floating-symbol" data-depth="0.2">
-                            <pre><code>let pool = unsafe {
-  CFAutoreleasePoolNew()
-};</code></pre>
-                        </div>
-                        <div class="floating-symbol" data-depth="0.5">
-                            <pre><code>CFStringCreateWithCString(
-  kCFAllocatorDefault,
-  "Hello",
-  kCFStringEncodingUTF8
-)</code></pre>
-                        </div>
-                        <div class="floating-symbol" data-depth="0.3">
-                            <pre><code>CFDictionaryCreateMutable(
-  kCFAllocatorDefault,
-  0,
-  &kCFTypeDictionaryKeyCallBacks
-)</code></pre>
-                        </div>
-                        <div class="floating-symbol" data-depth="0.7">
-                            <pre><code>CFRetain(obj);
-CFRelease(obj);</code></pre>
-                        </div>
-                        <div class="floating-symbol" data-depth="0.4">
-                            <pre><code>CFArrayCreateMutable(
-  kCFAllocatorDefault,
-  0,
-  &kCFTypeArrayCallBacks
-)</code></pre>
-                        </div>
-                        <div class="floating-symbol" data-depth="0.6">
-                            <pre><code>let type_id =
-  CFGetTypeID(value);</code></pre>
-                        </div>
-                        <div class="floating-symbol" data-depth="0.35">
-                            <pre><code>CFNumberCreate(
-  kCFAllocatorDefault,
-  kCFNumberIntType,
-  &num
-)</code></pre>
-                        </div>
-                        <div class="floating-symbol" data-depth="0.55">
-                            <pre><code>let bundled =
-  CFBundleGetMainBundle();</code></pre>
-                        </div>
-                        <div class="floating-symbol" data-depth="0.45">
-                            <pre><code>CFURLCreateWithFileSystemPath(
-  kCFAllocatorDefault,
-  path,
-  kCFURLPOSIXPathStyle,
-  false
-)</code></pre>
-                        </div>
-                        <div class="floating-symbol" data-depth="0.65">
-                            <pre><code>unsafe {
-  CFRelease(pool);
-}</code></pre>
-                        </div>
-                        <div class="floating-symbol" data-depth="0.25">
-                            <pre><code>let data =
-  CFDataCreateWithBytesNoCopy(
-    kCFAllocatorDefault,
-    bytes,
-    len,
-    kCFAllocatorNull
-  );</code></pre>
-                        </div>
-                        <div class="floating-symbol" data-depth="0.75">
-                            <pre><code>CFComparisonResult::
-kCFCompareLessThan</code></pre>
-                        </div>
-                    </div>
-
-                    <div
-                        class="panel"
-                        style="justify-content: center; max-width: 1100px"
-                    >
-                        <div
-                            class="content reveal"
-                            style="text-align: center; max-width: 760px"
-                        >
-                            <h2 class="title">Building in open wild.</h2>
-                            <p class="lead">
-                                Contributions, issues and discussions happen on
-                                GitHub, all-openly. We welcome bug reports, PRs
-                                and ideas.
-                            </p>
-                            <div
-                                style="
-                                    margin-top: 22px;
-                                    display: flex;
-                                    gap: 12px;
-                                    justify-content: center;
-                                "
-                            >
-                                <a
-                                    href="https://github.com/machlit"
-                                    class="cta primary"
-                                    ><i class="fab fa-github"></i> Visit
-                                    GitHub</a
-                                >
-                                <a
-                                    href="https://codeberg.org/machlit"
-                                    class="cta ghost"
-                                    >Visit Codeberg (Building!)</a
-                                >
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </main>
+        <div id="progress">
+            <div class="progress-dot active"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
         </div>
 
-        <script src="script.js"></script>
+        <span id="scroll-hint">scroll</span>
+
+        <div id="scroll-container">
+            <div id="scroll-content">
+                <section class="section">
+                    <span class="line heading">Prep your Mac tools</span>
+                    <span class="line heading"
+                        >like a
+                        <span class="accent">chocolate basket.</span></span
+                    >
+                    <span class="spacer"></span>
+                    <span class="line">(follow your scroll wheel)</span>
+                </section>
+
+                <section class="section">
+                    <span class="spacer-sm"></span>
+                    <span class="line"
+                        >Ever feel like you need tools which you "enjoy"?</span
+                    >
+                    <span class="line"
+                        >When was the last time you typed that one
+                        command?</span
+                    >
+                    <span class="spacer"></span>
+                    <span class="line">Now let's change it.</span>
+                    <span class="spacer"></span>
+                    <span class="line">Scroll down even more..</span>
+                    <span class="line"
+                        >To gift yourself
+                        <span class="accent">convenience.</span></span
+                    >
+                    <span class="line"
+                        >Apps and tools you'll
+                        <span class="accent">love.</span></span
+                    >
+                </section>
+
+                <section class="section">
+                    <span class="line sub">cutler</span>
+                    <span class="spacer-sm"></span>
+                    <span
+                        class="line heading"
+                        style="font-size: clamp(1.8rem, 3.5vw, 2.8rem)"
+                        >Declare your <span class="accent">Mac.</span></span
+                    >
+                    <span
+                        class="line heading"
+                        style="font-size: clamp(1.8rem, 3.5vw, 2.8rem)"
+                        >Apply it <span class="accent">once.</span></span
+                    >
+                    <span class="spacer"></span>
+                    <span class="line">Write a single TOML file.</span>
+                    <span class="line">Run a single command.</span>
+                    <span class="line"
+                        >Watch your system become exactly what you
+                        intended.</span
+                    >
+                    <span class="spacer"></span>
+                    <span class="line">
+                        <span
+                            class="cmd-block"
+                            data-cmd="brew install machlit/tap/cutler"
+                        >
+                            <span class="cmd-text"
+                                >$ brew install machlit/tap/cutler</span
+                            >
+                            <button class="copy-btn" aria-label="Copy command">
+                                <span class="copy-tooltip">copied</span>
+                                <svg
+                                    width="15"
+                                    height="15"
+                                    viewBox="0 0 15 15"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <rect
+                                        x="5.5"
+                                        y="1.5"
+                                        width="8"
+                                        height="9"
+                                        rx="1.8"
+                                        stroke="#555"
+                                        stroke-width="1.25"
+                                    />
+                                    <rect
+                                        x="1.5"
+                                        y="4.5"
+                                        width="8"
+                                        height="9"
+                                        rx="1.8"
+                                        fill="#f2f2f2"
+                                        stroke="#555"
+                                        stroke-width="1.25"
+                                    />
+                                </svg>
+                            </button>
+                        </span>
+                    </span>
+                    <span class="spacer"></span>
+                    <span class="line"
+                        ><a
+                            class="repo-link"
+                            href="https://github.com/machlit/cutler"
+                            target="_blank"
+                            >github.com/machlit/cutler ↗</a
+                        ></span
+                    >
+                </section>
+
+                <section class="section">
+                    <span class="line sub">defaults-rs </span>
+                    <span class="spacer-sm"></span>
+                    <span
+                        class="line heading"
+                        style="font-size: clamp(1.8rem, 3.5vw, 2.8rem)"
+                        ><span class="accent">macOS</span> defaults,</span
+                    >
+                    <span
+                        class="line heading"
+                        style="font-size: clamp(1.8rem, 3.5vw, 2.8rem)"
+                        >finally tamed.</span
+                    >
+                    <span class="spacer"></span>
+                    <span class="line"
+                        >A native
+                        <span class="accent" style="font-weight: 400"
+                            >Rust</span
+                        >
+                        interface to the macOS defaults system.</span
+                    >
+                    <span class="line"
+                        >Read, write, and manage user preferences</span
+                    >
+                    <span class="line"
+                        >from the command line or from your own library.</span
+                    >
+                    <span class="spacer"></span>
+                    <span class="line"
+                        ><a
+                            class="repo-link"
+                            href="https://github.com/machlit/defaults-rs"
+                            target="_blank"
+                            >github.com/machlit/defaults-rs ↗</a
+                        ></span
+                    >
+                </section>
+
+                <section class="section">
+                    <span class="line">Everything here</span>
+                    <span class="line">is free to use,</span>
+                    <span class="line">free to fork,</span>
+                    <span class="line">free to improve.</span>
+                    <span class="spacer"></span>
+                    <span class="line sub"
+                        ><a
+                            class="repo-link"
+                            href="https://github.com/machlit"
+                            target="_blank"
+                            >github.com/machlit ↗</a
+                        ></span
+                    >
+                    <span class="spacer-sm"></span>
+                    <span class="line sub"
+                        ><a
+                            class="repo-link"
+                            href="https://codeberg.org/machlit"
+                            target="_blank"
+                            >codeberg.org/machlit ↗</a
+                        ></span
+                    >
+                </section>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                const container = document.getElementById("scroll-container");
+                const content = document.getElementById("scroll-content");
+                const navLogo = document.getElementById("nav-logo");
+                const hint = document.getElementById("scroll-hint");
+                const dots = document.querySelectorAll(".progress-dot");
+                const sections = document.querySelectorAll(".section");
+                const lines = document.querySelectorAll(".line");
+
+                let curY = 0,
+                    tgtY = 0,
+                    raf = null,
+                    maxScroll = 0,
+                    scrolled = false;
+                const EASE = 0.2;
+
+                function clamp(v, a, b) {
+                    return v < a ? a : v > b ? b : v;
+                }
+
+                function recalc() {
+                    maxScroll = Math.max(
+                        0,
+                        content.scrollHeight - window.innerHeight,
+                    );
+                    tgtY = clamp(tgtY, 0, maxScroll);
+                }
+
+                function updateDOM() {
+                    const half = window.innerHeight * 0.7;
+                    lines.forEach((l) => {
+                        const r = l.getBoundingClientRect();
+                        l.classList.toggle(
+                            "active",
+                            r.top + r.height * 0.5 < half,
+                        );
+                    });
+                    let cur = 0;
+                    sections.forEach((s, i) => {
+                        if (s.getBoundingClientRect().top < half) cur = i;
+                    });
+                    dots.forEach((d, i) =>
+                        d.classList.toggle("active", i === cur),
+                    );
+                    const p = maxScroll ? curY / maxScroll : 0;
+                    const c = Math.round(p * 80)
+                        .toString(16)
+                        .padStart(2, "0");
+                    navLogo.style.color = `#${c}${c}${c}`;
+                }
+
+                function tick() {
+                    const d = tgtY - curY;
+                    if (Math.abs(d) < 0.08) {
+                        curY = tgtY;
+                        content.style.transform = `translateY(${-curY}px)`;
+                        updateDOM();
+                        raf = null;
+                        return;
+                    }
+                    curY += d * EASE;
+                    content.style.transform = `translateY(${-curY}px)`;
+                    updateDOM();
+                    raf = requestAnimationFrame(tick);
+                }
+
+                function go(delta) {
+                    tgtY = clamp(tgtY + delta, 0, maxScroll);
+                    if (!raf) raf = requestAnimationFrame(tick);
+                }
+
+                function markScrolled() {
+                    if (!scrolled) {
+                        scrolled = true;
+                        hint.style.opacity = "0";
+                    }
+                }
+
+                container.addEventListener(
+                    "wheel",
+                    (e) => {
+                        e.preventDefault();
+                        markScrolled();
+                        go(e.deltaY * 0.8);
+                    },
+                    { passive: false },
+                );
+
+                let t0 = 0;
+                container.addEventListener(
+                    "touchstart",
+                    (e) => {
+                        t0 = e.touches[0].clientY;
+                    },
+                    { passive: true },
+                );
+                container.addEventListener(
+                    "touchmove",
+                    (e) => {
+                        e.preventDefault();
+                        const dy = t0 - e.touches[0].clientY;
+                        t0 = e.touches[0].clientY;
+                        if (Math.abs(dy) > 1) markScrolled();
+                        go(dy * 1.2);
+                    },
+                    { passive: false },
+                );
+
+                window.addEventListener("keydown", (e) => {
+                    const step = window.innerHeight * 0.6;
+                    if (
+                        e.key === "ArrowDown" ||
+                        e.key === "PageDown" ||
+                        e.key === " "
+                    ) {
+                        e.preventDefault();
+                        markScrolled();
+                        go(step);
+                    } else if (e.key === "ArrowUp" || e.key === "PageUp") {
+                        e.preventDefault();
+                        go(-step);
+                    }
+                });
+
+                dots.forEach((d, i) => {
+                    d.addEventListener("click", () => {
+                        tgtY = clamp(sections[i].offsetTop, 0, maxScroll);
+                        if (!raf) raf = requestAnimationFrame(tick);
+                    });
+                });
+
+                window.addEventListener("resize", () => {
+                    recalc();
+                    if (!raf) raf = requestAnimationFrame(tick);
+                });
+
+                document.querySelectorAll(".copy-btn").forEach((btn) => {
+                    btn.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        const cmd = btn.closest(".cmd-block").dataset.cmd;
+                        const write = () => {
+                            const ta = document.createElement("textarea");
+                            ta.value = cmd;
+                            ta.style.cssText = "position:fixed;opacity:0";
+                            document.body.appendChild(ta);
+                            ta.select();
+                            document.execCommand("copy");
+                            document.body.removeChild(ta);
+                        };
+                        navigator.clipboard
+                            ? navigator.clipboard.writeText(cmd).catch(write)
+                            : Promise.resolve(write());
+                        btn.classList.add("copied");
+                        setTimeout(() => btn.classList.remove("copied"), 1600);
+                    });
+                });
+
+                setTimeout(() => {
+                    if (scrolled) return;
+                    let op = 1,
+                        dir = -1;
+                    const iv = setInterval(() => {
+                        if (scrolled) {
+                            clearInterval(iv);
+                            return;
+                        }
+                        op += dir * 0.02;
+                        if (op <= 0.3) dir = 1;
+                        if (op >= 1) dir = -1;
+                        hint.style.opacity = op;
+                    }, 40);
+                }, 2000);
+
+                recalc();
+                updateDOM();
+            })();
+        </script>
     </body>
 </html>
